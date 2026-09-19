@@ -1,0 +1,48 @@
+body {
+  background-color: $sec;
+  color: $pri-dark;
+}
+
+h1 {
+  color: $sec;
+  background-color: $pri;
+}
+
+.answers {
+  background-color: $trans-white;
+  border: 2px dotted $pri;
+  border-radius: 10px;
+}
+
+#questions {
+  font-size: 1rem;
+}
+
+.feedback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 41px;
+  padding: 0.3em;
+  background-color: $pri;
+  color: $sec;
+  border: 1px solid $pri;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+.correct {
+  color: $sec;
+  background-color: $feedbk-cor;
+}
+
+.incorrect {
+  color: $sec;
+  background-color: $feedbk-incor;
+}
+
+.the-right-one {
+  background-color: $trans-green;
+  border: 2px solid $pri;
+  box-shadow: 0 0 12px 4px white;
+}
