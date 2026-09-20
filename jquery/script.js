@@ -6,6 +6,9 @@ console.log(
 
 $(function () {
   $('h1').text('Lemon-lime Trivia');
+
+  // Render initial question on load
+  renderQuestions();
 });
 
 //-------------------------------------
@@ -36,7 +39,7 @@ let correct = 0;
 const questions = [
   // Question 1
   [
-    ['1. What does the word ‘flummox’ mean?', 2],
+    ['1. What does the word ‘flummox’ mean?', 3],
     ['A style of architecture characterized by ornate decorations', false],
     ['A famous British detective from a series of novels', false],
     ['To confuse or perplex greatly', true],
@@ -45,7 +48,7 @@ const questions = [
 
   // Question 2
   [
-    ['2. What does the word ‘shenanigans’ mean?', 3],
+    ['2. What does the word ‘shenanigans’ mean?', 4],
     ['A word puzzle originating in Ireland', false],
     ['A traditional Hawaiian feast', false],
     ['A state of total chaos', false],
@@ -54,7 +57,7 @@ const questions = [
 
   // Question 3
   [
-    ['3. What does the word ‘brouhaha’ mean?', 2],
+    ['3. What does the word ‘brouhaha’ mean?', 3],
     ['A sound of hearty laughter', false],
     ['A traditional dance performed at weddings', false],
     ['An uproar or noisy situation', true],
@@ -63,7 +66,7 @@ const questions = [
 
   // Question 4
   [
-    ['4. What does the word ‘snollygoster’ mean?', 1],
+    ['4. What does the word ‘snollygoster’ mean?', 2],
     ['An expression of surprise', false],
     ['A shrewd, unprincipled person, especially a politician', true],
     ['A colloquial term for an antlion larva', false],
@@ -72,28 +75,25 @@ const questions = [
 
   // Question 5
   [
-    ['5. What does the word ‘galumph’ mean?', 0],
+    ['5. What does the word ‘galumph’ mean?', 1],
     ['To move in a clumsy, awkward, or noisy manner', true],
     ['The sound created by a galloping horse', false],
-    ['A fictional creature that grants wished', false],
+    ['A fictional creature that grants wishes', false],
     ['A type of flower commonly found in Northern Europe', false],
   ],
 
   // Question 6
   [
-    ['6. What does the word ‘codswallop’ mean?', 1],
+    ['6. What does the word ‘codswallop’ mean?', 2],
     ['A type of candy popular in the late 1950s', false],
     ['Nonsense or rubbish', true],
-    [
-      'A mythical creature with the head of a lion and the body of a goat',
-      false,
-    ],
+    ['A large club from mideval England', false],
     ['A traditional Scottish dance', false],
   ],
 
   // Question 7
   [
-    ['7. What does the word ‘bumbershoot’ mean?', 0],
+    ['7. What does the word ‘bumbershoot’ mean?', 1],
     ['An umbrella', true],
     ['A type of dance popular in the 1920s', false],
     ['A style of martial arts originating in Japan', false],
@@ -102,7 +102,7 @@ const questions = [
 
   // Question 8
   [
-    ['8. What does the word ‘doozy’ mean?', 3],
+    ['8. What does the word ‘doozy’ mean?', 4],
     ['A traditional Mediterranean dish made with rice and vegetables', false],
     ['A style art used for surreal paintings', false],
     ['A boring story that puts one to sleep', false],
@@ -111,7 +111,7 @@ const questions = [
 
   // Question 9
   [
-    ['9. What does the word ‘gadzooks’ mean?', 0],
+    ['9. What does the word ‘gadzooks’ mean?', 1],
     ['An exclamation of surprise or annoyance', true],
     ['A percussion instrument commonly used in African music', false],
     ['A character from a famous series of pulp fiction novels', false],
@@ -126,28 +126,63 @@ const questions = [
 // UI RENDER FUNCTIONS
 //-------------------------------------
 // Populate DOM elements with question text and answer choices
+function renderQuestions() {
+  console.log('renderQuestions() invoked');
+  $();
+  console.log(
+    `%cquestion ${q + 1}------------------`,
+    'background-color:black; color:yellow; font-size: 9px; padding: .3em'
+  );
+  $('#questions').text(questions[q][0][0]);
+
+  // Populate options 1 through 4
+  for (let i = 1; i <= 4; i++) {
+    $(`#ans${i}`).text(questions[q][i][0]);
+  }
+}
+
+// Update current score counter display
+function updateScore() {
+  console.log('updateScore() invoked');
+
+  $('#score-tracker').text(`Score ${correct} out of ${q + 1}`);
+}
+
+// Display final results screen once all questions are answered
+
+// function renderEndScreen() {
+//   $('#qAndA').hide();
+//   $('#controls').hide();
+//   $('#resultsScreen').html(`
+//     <h2>Quiz Completed!</h2>
+//     <p>Final Score: <strong>${correct} out of ${questions.length}</strong></p>
+//     <button id="restartBtn">Try Again</button>
+//   `).show();
+
+//   // Attach event listener for rebooting quiz
+//   $('#restartBtn').on('click', resetQuiz);
+// }
 
 //-------------------------------------
 // END UI RENDER FUNCTIONS
 //-------------------------------------
 
 function removeListeners() {
-  for (let i = 0; i < 4; i++) {
-    console.log(`disable choice ${i}`);
-    $(`#ans` + i).unbind();
-    $(`#ans` + i).toggleClass('active');
+  for (let i = 1; i <= 4; i++) {
+    $(`#ans${i}`).unbind();
+    $(`#ans${i}`).toggleClass('active');
   }
 }
 
 function result() {
-  console.log(questions[q][chosen + 1][1]);
-  console.log(`q = ` + q);
-  if (questions[q][chosen + 1][1]) {
+  console.log(questions[q][chosen][1]);
+  if (questions[q][chosen][1]) {
     console.log('Answer is correct');
     correct++;
     feedback = $('#feedback');
     console.log(feedback);
     $('#feedback').addClass('correct');
+    $(`#ans${questions[q][0][1]}`).toggleClass('the-right-one');
     $('.result').html(
       "<span class='rem1-35'>&#127881; </span> Yes, that's the correct answer!"
     );
@@ -165,6 +200,7 @@ function result() {
   }
   removeListeners();
   console.log(`${correct} correct out of ${q + 1}`);
+  updateScore();
 }
 
 function reset() {
@@ -176,7 +212,8 @@ function reset() {
   $('.next').text('');
   setListeners();
   q++;
-  populate();
+  // populate();
+  renderQuestions();
   if (q == 8) {
     $(`.next`).addClass('hidden');
   }
@@ -185,9 +222,9 @@ function reset() {
 
 //Listeners
 function setListeners() {
-  for (let i = 0; i < 4; i++) {
-    $(`#ans` + i).toggleClass('active');
-    $(`#ans` + i).click(function () {
+  for (let i = 1; i <= 4; i++) {
+    $(`#ans${i}`).toggleClass('active');
+    $(`#ans${i}`).click(function () {
       chosen = i;
       console.log('chosen = ' + chosen);
       result();
@@ -200,16 +237,17 @@ $(`.next`).click(function () {
 });
 
 //HTML manipulation
-function populate() {
-  $('#questions').text(questions[q][0][0]);
-  for (let i = 0; i < 4; i++) {
-    let ii = i + 1;
-    $(`#ans${i}`).text(questions[q][ii][0]);
-  }
-}
+// function populate() {
+//   $('#questions').text(questions[q][0][0]);
+
+//   // Populate options 1 through 4
+//   for (let i = 1; i<=4; i++) {
+//     $(`#ans${i}`).text(questions[q][i][0]);
+//   }
+// }
 
 //Function calls
-populate();
+// populate();
 setListeners();
 // $(function () {
 //   populate();
