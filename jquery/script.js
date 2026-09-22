@@ -129,10 +129,14 @@ const questions = [
 function renderQuestions() {
   console.log('renderQuestions() invoked');
   $();
+  if (q >= questions.length) {
+    return;
+  }
   console.log(
     `%cquestion ${q + 1}------------------`,
     'background-color:black; color:yellow; font-size: 9px; padding: .3em'
   );
+  console.log(`q = ${q}`);
   $('#questions').text(questions[q][0][0]);
 
   // Populate options 1 through 4
@@ -198,6 +202,9 @@ function result() {
     );
     $('.next').text('next>>');
   }
+  if (q === questions.length - 1) {
+    $(`.complete`).removeClass('hidden');
+  }
   removeListeners();
   console.log(`${correct} correct out of ${q + 1}`);
   updateScore();
@@ -213,8 +220,9 @@ function reset() {
   setListeners();
   q++;
   // populate();
+
   renderQuestions();
-  if (q == 8) {
+  if (q === questions.length - 1) {
     $(`.next`).addClass('hidden');
   }
 }
