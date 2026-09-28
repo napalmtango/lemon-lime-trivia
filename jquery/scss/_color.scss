@@ -8,6 +8,11 @@ h1 {
   background-color: $pri;
 }
 
+.start-btn {
+  background-color: $sec;
+  color: $pri;
+}
+
 .answers {
   background-color: $trans-white;
   border: 2px dotted $pri;

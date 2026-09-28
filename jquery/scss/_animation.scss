@@ -1,0 +1,23 @@
+// @keyframes verticalBounce {
+//   0% {
+//     height: 65.38px;
+//     animation-timing-function: ease-in;
+//   }
+//   100% {
+//     height: 366.73px;
+//     animation-timing-function: ease-out;
+//   }
+// }
+
+.fade-btn {
+  opacity: 1;
+  transition: opacity 0.8s ease 0.2s;
+}
+
+.fade-btn.fade-out {
+  opacity: 0;
+}
+
+.border.animate {
+  height: 366.73px;
+}

@@ -238,6 +238,24 @@ function setListeners() {
       result();
     });
   }
+  $('.start-btn').click(function () {
+    const $windowEl = $('.border');
+    $windowEl.addClass('animate');
+    console.log('start-btn clicked');
+    $('.start-btn').addClass('fade-out');
+    $('.start-btn').on('transitionend', function handler(e) {
+      // Optional: Ensure the transition property that ended was 'opacity'
+      if (e.originalEvent.propertyName !== 'opacity') return;
+
+      // Step 3: Add your hidden class and reset the fade class
+      $('.start-btn').addClass('hidden');
+      $('.start-btn').removeClass('fade-out');
+      // $windowEl.removeClass('animate');
+
+      // Step 4: Turn off the listener so it doesn't fire multiple times later
+      $('.start-btn').off('transitionend', handler);
+    });
+  });
 }
 
 $(`.next`).click(function () {
